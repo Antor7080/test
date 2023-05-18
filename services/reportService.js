@@ -1,3 +1,4 @@
+const { find } = require('../models/feedback.model');
 const Report = require('../models/report.model');
 exports.addReportService = async (reportInfo) => {
     const newReport = await Report.create(reportInfo);
@@ -23,3 +24,14 @@ exports.findallReport = async (queries, filters) => {
     const page = Math.ceil(total / queries.limit)
     return { total, page, report };
 };
+
+exports.addComment = async (id, comment) => {
+    console.log({ id, comment });
+    // id: 5f9b2b9b9d9b7b2a3c9b3b2a
+    // comment: { comment: 'hello' }
+    return Report.updateOne(
+        { _id: id },
+        { $push: { comments: { $each: [comment], $position: 0 } } },
+        { new: true }
+    );
+}

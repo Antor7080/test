@@ -1,4 +1,4 @@
-const { addReportService, getReportByIdService, findReport, findallReport } = require("../services/reportService");
+const { addReportService, getReportByIdService, findReport, findallReport, addComment } = require("../services/reportService");
 const { filterOption } = require("../util/filterOption");
 
 const reportController = {
@@ -114,6 +114,39 @@ const reportController = {
             })
         }
     },
+    addComment:async (req, res)=>{
+        try {
+            const { id } = req.params;
+            const user = res.locals.user;
+            const { comment, isAnonymous} = req.body;
+              const report = await getReportByIdService(id);
+            if (!report) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Report not found",
+                })
+            }
+            const newComment = {
+                comment,
+                _id: user._id,
+                commented_by: isAnonymous? "anonymous user": user.name,
+                commenter_image: isAnonymous? "": user.image,
+            }
+          const addComments = await addComment(id, newComment);
+          console.log({addComments});
+            res.status(200).json({
+                success: true,
+                message: "Comment added successfully",
+                data: addComments,
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: "Internal server error",
+                error: error.message,
+            })
+        }
+    }
 
 };
 

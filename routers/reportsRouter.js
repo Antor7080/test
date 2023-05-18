@@ -8,9 +8,10 @@ router.post('/add-report', authorization("student"), upload.fields([{
     maxCount: 10
 }]), reportController.addReport);
 
-router.get('/get-report/:id', authorization("student", "admin", "teacher", "superAdmin"), reportController.getReportById);
-router.get("/single-user-report/:id", authorization("student", "admin", "teacher", "superAdmin"), reportController.getSingleUserReports);
+router.get('/get-report/:id', /* authorization("student", "admin", "teacher", "superAdmin") */ reportController.getReportById);
+router.get("/single-user-report/:id",/*  authorization("student", "admin", "teacher", "superAdmin"), */ reportController.getSingleUserReports);
+router.post("/add-comment/:id", authorization("admin", "superAdmin", "student"), reportController.addComment);
 
-router.get('/get-all-reports', authorization("admin", "superAdmin"), reportController.getAllReports);
+router.get('/get-all-reports', authorization("admin", "superAdmin", "student"), reportController.getAllReports);
 
 module.exports = router;

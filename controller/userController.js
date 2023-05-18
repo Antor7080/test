@@ -36,6 +36,7 @@ const userController = {
     },
     //user login ==>
     login: async (req, res) => {
+        console.log(req);
         const { password, IdNumber } = req.body;
 
         if (!IdNumber && !password) {
@@ -57,12 +58,13 @@ const userController = {
             if (user.status !== "active") {
                 return res.status(400).json({ error: "Your account is not activated yet" });
             }
+            console.log(user._id);
 
             //generate access token
-            const accessToken = generateToken(user)
+            const accessToken = generateToken(user._id)
 
             //generate refresh token
-            const refreshToken = generateRefreshToken(user)
+            const refreshToken = generateRefreshToken(user._id)
 
             //store refresh token
             refreshTokens.push(refreshToken);
@@ -84,6 +86,8 @@ const userController = {
 
 
         } catch (error) {
+            console.log(req);
+            console.log(error);
             res.status(500).json({ error: error.message });
         }
     },
@@ -113,7 +117,7 @@ const userController = {
             if (error) {
                 return res.status(403).json({ error: "Forbidden" });
             }
-            const accessToken = generateToken(user);
+            const accessToken = generateToken(user._id);
             res.status(200).json({ accessToken });
         });
     },
@@ -180,8 +184,9 @@ const userController = {
     },
     passwordChange: async (req, res) => {
         const { oldPassword, newPassword } = req.body;
+        const reqUser= res.locals.user;
         try {
-            const user = await findUserById(req.user._id);
+            const user = await findUserById(reqUser._id);
             const validPassword = await bcrypt.compare(oldPassword, user.password);
             if (!validPassword) {
                 return res.status(400).json({ error: "Invalid old password" });

@@ -5,14 +5,15 @@ const { filterOption } = require("../util/filterOption");
 
 const categoryController = {
     addNewCategory: async (req, res) => {
+        const user = res.locals.user;
         try {
             const image = req.file ? req.file.filename : '';
             const categoryInfo = {
                 ...req.body,
                 image,
                 addedBy: {
-                    user: req.userId,
-                    name: req.name,
+                    user: user._id,
+                    name: user.name,
                 },
             }
             const newCategory = await addCategory(categoryInfo);
@@ -29,6 +30,8 @@ const categoryController = {
             });
         }
     },
+
+
     getAllCategories: async (req, res) => {
         try {
             const { queries, filters } = filterOption(req);

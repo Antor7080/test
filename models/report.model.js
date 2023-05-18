@@ -38,8 +38,7 @@ const reportSchema = new mongoose.Schema({
             type: String
         }
     },
-    discrption: {
-
+    description: {
         type: String,
         required: true,
     },
@@ -54,6 +53,7 @@ const reportSchema = new mongoose.Schema({
     }],
     feedbacks: [{
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Feedback",
     }],
 
     building: {
@@ -75,6 +75,23 @@ const reportSchema = new mongoose.Schema({
         default: false,
         enum: [true, false]
     },
+    comments: [{
+        at: {
+            type: Date,
+            default: Date.now()
+        },
+        _id: false,
+        comment: {
+            type: String,
+        },
+        commented_by: {
+            type: String
+        },
+        commenter_image:{
+            type: String
+        }
+    }],
+    
 
 },
     {

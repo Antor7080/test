@@ -1,33 +1,18 @@
 const jwt = require("jsonwebtoken");
 
 
-exports.generateToken = (userInfo) => {
-  const payload = {
-    phoneNumber: userInfo.phoneNumber,
-    role: userInfo.role,
-    id: userInfo._id,
-    name: userInfo.name,
-    IdNumber: userInfo.IdNumber,
-    gender: userInfo.gender
+exports.generateToken = (id) => {
 
-  };
-
-  const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+console.log({id});
+  const token = jwt.sign({id:id}, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: "7days"
   });
   return token;
 };
-exports.generateRefreshToken = (userInfo) => {
-  const payload = {
-    phoneNumber: userInfo.phoneNumber,
-    role: userInfo.role,
-    id: userInfo._id,
-    name: userInfo.name,
-    IdNumber: userInfo.IdNumber,
-    gender: userInfo.gender
-  };
+exports.generateRefreshToken = (id) => {
 
-  const token = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
+
+  const token = jwt.sign({id: id}, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: "70days"
   });
   return token;
