@@ -89,6 +89,9 @@ const reportSchema = new mongoose.Schema({
         },
         commenter_image:{
             type: String
+        },
+        isAnonymous: {
+            type: Boolean,
         }
     }],
     

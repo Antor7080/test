@@ -135,8 +135,8 @@ router.post("/verifyOTP", userController.verifyPhoneNumber);
 
 /**
  * @swagger
- * /api/user/resetPassword:
- *  post:
+ *  /api/user/resetPassword:
+ *   post:
  *    description: Use to reset user password
  *    parameters:
  *     - in: header
