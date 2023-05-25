@@ -26,7 +26,6 @@ exports.findallReport = async (queries, filters) => {
 };
 
 exports.addComment = async (id, comment) => {
-    console.log({ id, comment });
     // id: 5f9b2b9b9d9b7b2a3c9b3b2a
     // comment: { comment: 'hello' }
     return Report.updateOne(

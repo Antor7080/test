@@ -8,12 +8,6 @@ exports.filterOption = (options) => {
     filtersString = filtersString.replace(/\b(gt|gte|lt|lte)\b/g, match => `$${match}`)
 
     filters = JSON.parse(filtersString)
-    if (options.role === "shopOwner") {
-        filters = { ...filters, "restaurant.id": options.userId }
-    };
-    if (restaurantId) {
-        filters = { ...filters, "restaurant.id": restaurantId }
-    }
     const queries = {}
 
     if (options.query.sort) {
@@ -29,7 +23,8 @@ exports.filterOption = (options) => {
 
     if (options.query.page) {
 
-        const { page = 1, limit = 10 } = options;
+        const { page = 1, limit = 10 } = options.query;
+        console.log(page, limit, options)
         const skip = (page - 1) * parseInt(limit);
         queries.skip = skip;
         queries.limit = parseInt(limit);

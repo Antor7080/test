@@ -1,8 +1,9 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { sendOTP } = require("../util/sendOTP");
+const User = require("../models/user.model");
 const { generateToken, generateRefreshToken } = require("../util/token");
-const { findUserByPhoneNumber, signupService, deleteUser, getUsers, getUserById, updateUser, bulkUpdateById, findUserById, findUserByIdNumber } = require("../services/userService");
+const { findUserByPhoneNumber, signupService, deleteUser, getUsers, getUserById, updateUser, bulkUpdateById, findUserByIdNumber } = require("../services/userService");
 let refreshTokens = require("../util/refreshTokens")
 const { unlinkSync } = require("fs");
 const { filterOption } = require("../util/filterOption");
@@ -30,13 +31,11 @@ const userController = {
             await user.save();
             res.status(201).json({ message: "User created successfully" });
         } catch (error) {
-            console.log(error);
             return res.status(500).json({ error: error.message });
         }
     },
     //user login ==>
     login: async (req, res) => {
-        console.log(req);
         const { password, IdNumber } = req.body;
 
         if (!IdNumber && !password) {
@@ -58,7 +57,6 @@ const userController = {
             if (user.status !== "active") {
                 return res.status(400).json({ error: "Your account is not activated yet" });
             }
-            console.log(user._id);
 
             //generate access token
             const accessToken = generateToken(user._id)
@@ -85,9 +83,7 @@ const userController = {
             })
 
 
-        } catch (error) {
-            console.log(req);
-            console.log(error);
+        } catch (error) {;
             res.status(500).json({ error: error.message });
         }
     },
@@ -186,7 +182,7 @@ const userController = {
         const { oldPassword, newPassword } = req.body;
         const reqUser= res.locals.user;
         try {
-            const user = await findUserById(reqUser._id);
+            const user = await getUserById(reqUser._id);
             const validPassword = await bcrypt.compare(oldPassword, user.password);
             if (!validPassword) {
                 return res.status(400).json({ error: "Invalid old password" });
@@ -204,7 +200,10 @@ const userController = {
     getUsers: async (req, res) => {
         try {
             const { filters, queries } = filterOption(req)
+            console.log(req.query);
+            console.log(filters, queries);
             const users = await getUsers(filters, queries);
+
             // remove password, verification code, reset code, reset code expire, verification code expire from the response
             users.users.forEach(user => {
                 user.password = undefined;
@@ -220,7 +219,6 @@ const userController = {
                 data: users,
             });
         } catch (error) {
-            console.log(error);
             res.status(400).json({
                 success: false,
                 message: "can't get the data",
@@ -398,7 +396,33 @@ const userController = {
             });
         }
     },
-
+     allUsers :(async (req, res) => {
+        const user = res.locals.user;
+        try {
+          const keyword = req.query.search
+            ? {
+                $or: [
+                  { name: { $regex: req.query.search, $options: "i" } },
+                  { email: { $regex: req.query.search, $options: "i" } },
+                ],
+              }
+            : {};
+          const allUserData = await User.find(keyword).find({
+            _id: { $ne: user._id },
+          });
+          if (allUserData.length === 0) {
+          return  res.status(200).json({
+              message: "No user Exist",
+            });
+          }
+       return   res.status(200).json({
+            users: allUserData,
+          });
+        } catch (err) {
+          res.status(500);
+          throw new Error(err);
+        }
+      })
 
 }
 

@@ -221,7 +221,7 @@ router.post("/resetPassword/verifyOTP", userController.passwordResetVerify);
  *       '500':
  *            description: Internal server error
  */
-router.patch("/changePassword", authorization("admin", "user", 'superAdmin', 'shopOwner'), userController.passwordChange);
+router.patch("/changePassword", authorization("admin", "user", 'superAdmin', 'student'), userController.passwordChange);
 
 /**
  * @openapi
@@ -422,5 +422,9 @@ router.put("/image-logo-change/:id", upload.fields([
     }
 ]), userController.imageAndIdCardUpdate)
 
+router.get("/",authorization("student", "admin", "doctor"), userController.allUsers)
+
 
 module.exports = router
+
+

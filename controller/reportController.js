@@ -20,10 +20,15 @@ const reportController = {
                 gender: req.gender
 
             }
+       
             const reportInfo = {
                 ...req.body,
                 images,
                 addedBy,
+                category: {
+                    name: category,
+                }
+
             };
             const newReport = await addReportService(reportInfo)
 
@@ -133,7 +138,6 @@ const reportController = {
                 commenter_image: isAnonymous? "": user.image,
             }
           const addComments = await addComment(id, newComment);
-          console.log({addComments});
             res.status(200).json({
                 success: true,
                 message: "Comment added successfully",

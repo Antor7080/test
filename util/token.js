@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 
 exports.generateToken = (id) => {
 
-console.log({id});
   const token = jwt.sign({id:id}, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: "7days"
   });

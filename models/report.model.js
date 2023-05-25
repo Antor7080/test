@@ -9,6 +9,9 @@ const reportSchema = new mongoose.Schema({
     images: [{
         type: String,
     }],
+    expectedSolution:{
+        type: String,
+    },
     status: {
         type: String,
         default: "open",
@@ -33,7 +36,6 @@ const reportSchema = new mongoose.Schema({
         },
     },
     category: {
-
         name: {
             type: String
         }
