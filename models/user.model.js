@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     default: "student",
-    enum: ["admin", "student", 'superAdmin', 'teacher',],
+    enum: ["admin", "student", 'superAdmin', 'teacher', 'doctor', 'staff'],
   },
   isVerified: {
     type: Boolean,
@@ -73,7 +73,6 @@ const userSchema = new mongoose.Schema({
   },
   shift: {
     type: String,
-    required: true,
     enum: ["day", "evening"]
   }
 
