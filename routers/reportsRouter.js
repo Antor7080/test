@@ -77,7 +77,7 @@ const authorization = require('../middlewares/common/authorization');
  * 
  */
 router.post('/add-report', authorization("student"), upload.fields([{
-    name: 'image',
+    name: 'images',
     maxCount: 10
 }]), reportController.addReport);
 

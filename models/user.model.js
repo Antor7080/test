@@ -64,12 +64,12 @@ const userSchema = new mongoose.Schema({
   }],
   gender: {
     type: String,
-    required: true,
+    // required: true,
     enum: ["male", "female", "other"]
   },
   department: {
     type: String,
-    required: true,
+    // required: true,
   },
   shift: {
     type: String,

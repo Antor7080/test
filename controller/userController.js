@@ -191,6 +191,7 @@ const userController = {
             await user.save();
             res.status(200).json({ message: "Password changed successfully" });
         } catch (error) {
+            console.log(error);
             res.status(500).json({ error: error.message });
         }
     },

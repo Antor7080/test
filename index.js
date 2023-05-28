@@ -106,7 +106,6 @@ io.on("connection", (socket) => {
     console.log("User joined room: " + room);
   });
   socket.on("new message", (newMessage) => {
-    console.log("new message", newMessage);
     var chat = newMessage.chatId;
  
     if (!chat.users) return console.log("chat.users not defined");
@@ -120,8 +119,6 @@ io.on("connection", (socket) => {
     });
   
     socket.on("typing", (room) => {
-      console.log({room})
-      console.log("typing");
       socket.in(room).emit("typing");
     });
     socket.on("stop typing", (room) => {
@@ -129,7 +126,7 @@ io.on("connection", (socket) => {
     });
   });
   socket.off("setup", () => {
-    console.log("USER DISCONNECTED");
+ 
     socket.leave(userData._id);
   });
 });

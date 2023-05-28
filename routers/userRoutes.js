@@ -221,7 +221,7 @@ router.post("/resetPassword/verifyOTP", userController.passwordResetVerify);
  *       '500':
  *            description: Internal server error
  */
-router.patch("/changePassword", authorization("admin", "user", 'superAdmin', 'student'), userController.passwordChange);
+router.patch("/changePassword", authorization("admin", "user", 'superAdmin', 'student', 'doctor', 'staff'), userController.passwordChange);
 
 /**
  * @openapi

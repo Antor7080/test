@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const reportSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true,
+      
     },
     //multiple images
     images: [{
@@ -14,8 +14,8 @@ const reportSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default: "open",
-        enum: ["open", "closed", "pending",],
+        default: "pending",
+        enum: [ "closed", "pending", "resolved", "progressing",],
     },
     addedBy: {
         user: {
@@ -46,12 +46,10 @@ const reportSchema = new mongoose.Schema({
     },
 
     r_id: {
-
         type: Number,
     },
     filesLinks: [{
         type: String,
-
     }],
     feedbacks: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -60,7 +58,6 @@ const reportSchema = new mongoose.Schema({
 
     building: {
         type: String,
-
     },
     floor: {
         type: String,
@@ -96,8 +93,6 @@ const reportSchema = new mongoose.Schema({
             type: Boolean,
         }
     }],
-    
-
 },
     {
         timestamps: true,

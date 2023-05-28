@@ -3,15 +3,16 @@ const { filterOption } = require("../util/filterOption");
 
 const reportController = {
     addReport: async (req, res) => {
+        console.log(req.body);
         try {
-            const { title, description, category } = req.body;
-            if (!title || !description || !category) {
+            const { description, category } = req.body;
+            if ( !description || !category) {
                 return res.status(400).json({
                     success: false,
                     message: "Please fill all required fields",
                 })
             }
-            const images = req.files?.image?.map((file) => file.filename);
+            const images = req.files?.images?.map((file) => file.filename);
             const addedBy = {
                 user: req.userId,
                 name: req.name,
@@ -56,6 +57,8 @@ const reportController = {
                     message: "Report not found",
                 })
             }
+            // popolate feedbacks
+            await report.populate("feedbacks")
             res.status(200).json({
                 success: true,
                 message: "Report found",
