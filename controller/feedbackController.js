@@ -6,6 +6,12 @@ const feedbackController = {
     try {
       const user = res.locals.user;
       const { feedback } = req.body;
+      if(!feedback){
+        return res.status(400).json({
+          success: false,
+          message: "Feedback is required",
+        });
+      }
       const reportId = req.params.id;
       const report = await getReportByIdService(reportId);
       if (!report) {
