@@ -19,7 +19,7 @@ const feedbackController = {
       const by = {
         info: user._id,
         name: user.name,
-        images: user.image,
+        image: user.image,
       };
       const info = {
         feedback,
