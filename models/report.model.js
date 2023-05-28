@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
 
 const reportSchema = new mongoose.Schema({
-    title: {
-        type: String,
-      
+    type: {
+        type: String, 
     },
+    classroomProblem: {
+        type : String,
+    },
+
     //multiple images
     images: [{
         type: String,
