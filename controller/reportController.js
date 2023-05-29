@@ -177,7 +177,6 @@ const reportController = {
               const info = {
                 feedback: `Status changed to ${status} by ${user.name}`,
                 report: id,
-                images,
                 by,
               };
               const newFeedback = await addFeedbackService(info);
