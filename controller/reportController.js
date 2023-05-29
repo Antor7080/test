@@ -175,7 +175,7 @@ const reportController = {
               };
 
               const info = {
-                feedback,
+                feedback: `Status changed to ${status} by ${user.name}`,
                 report: id,
                 images,
                 by,
