@@ -1,4 +1,5 @@
-const { addReportService, getReportByIdService, findReport, findallReport, addComment } = require("../services/reportService");
+const { addFeedbackService } = require("../services/feedbackService");
+const { addReportService, getReportByIdService, findReport, findallReport, addComment, ChangeStatus } = require("../services/reportService");
 const { filterOption } = require("../util/filterOption");
 
 const reportController = {
@@ -153,7 +154,48 @@ const reportController = {
                 error: error.message,
             })
         }
-    }
+    },
+    updateStatus : async (req, res)=>{
+        try {
+            const { id } = req.params;
+            const { status } = req.body;
+            const user = res.locals.user;
+            const report = await getReportByIdService(id);
+            if (!report) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Report not found",
+                })
+            }
+            const updateStatus = await ChangeStatus(id, status);
+            const by = {
+                info: user._id,
+                name: user.name,
+                image: user.image,
+              };
+
+              const info = {
+                feedback,
+                report: id,
+                images,
+                by,
+              };
+              const newFeedback = await addFeedbackService(info);
+              report.feedbacks.push(newFeedback._id);
+              await report.save();
+            res.status(200).json({
+                success: true,
+                message: "Status updated successfully",
+                data: updateStatus,
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: "Internal server error",
+                error: error.message,
+            })
+        }
+    },
 
 };
 

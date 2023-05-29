@@ -202,5 +202,7 @@ router.post("/add-comment/:id", authorization("admin", "superAdmin", "student"),
  */
 
 router.get('/get-all-reports', authorization("admin", "superAdmin", "student"), reportController.getAllReports);
+router.put("/update/:id",  authorization("admin", "superAdmin", "student"), reportController.updateStatus);
+
 
 module.exports = router;

@@ -34,3 +34,6 @@ exports.addComment = async (id, comment) => {
         { new: true }
     );
 }
+exports.ChangeStatus = async (id, status) => {
+    return Report.findByIdAndUpdate(id, { status: status }, { new: true });
+}
