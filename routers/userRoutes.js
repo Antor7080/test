@@ -423,6 +423,7 @@ router.put("/image-logo-change/:id", upload.fields([
 ]), userController.imageAndIdCardUpdate)
 
 router.get("/",authorization("student", "admin", "doctor"), userController.allUsers)
+router.post("/logout", userController.logout)
 
 
 module.exports = router

@@ -90,7 +90,7 @@ const userController = {
     //user logout
     logout: async (req, res) => {
         try {
-            const refreshToken = req.cookies.refreshToken;
+            const refreshToken = req.body;
             if (!refreshToken) {
                 return res.status(401).json({ error: "Unauthorized" });
             }
