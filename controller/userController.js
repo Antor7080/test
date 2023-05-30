@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { sendOTP } = require("../util/sendOTP");
+const { sendOTP, sendMessage } = require("../util/sendOTP");
 const User = require("../models/user.model");
 const { generateToken, generateRefreshToken } = require("../util/token");
 const { findUserByPhoneNumber, signupService, deleteUser, getUsers, getUserById, updateUser, bulkUpdateById, findUserByIdNumber } = require("../services/userService");
