@@ -319,11 +319,14 @@ const userController = {
                 error: "user not found",
             });
         }
-        if (!req.files) {
+        console.log();
+        if (req.files.image === undefined && req.files.idCardImage === undefined) {
             return res.status(400).json({
                 success: false,
-                message: "can't update the data",
-                error: "please select image and logo",
+                message: {
+                    image: "image is required",
+                    idCardImage: "id card image is required",
+                }
             });
         }
 
@@ -376,7 +379,8 @@ const userController = {
             if (status === "delete") {
                 //send user delete sms
                 const message = `Dear ${user.name}, your have to re create account with correct information. Thanks`;
-                await sendMessage(user.phone, message);
+                console.log({user});
+                await sendMessage(user.phoneNumber, message);
                 await user.remove();
                 return res.status(200).json({
                     success: true,

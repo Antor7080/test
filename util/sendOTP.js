@@ -13,6 +13,7 @@ module.exports.sendOTP = async (phoneNumber, verificationCode) => {
 }
 
 exports.sendMessage=async (phoneNumber, message) => {
+console.log(phoneNumber, message);
     const rp = require('request-promise-native');
     const options = {
         method: 'POST',
@@ -21,6 +22,6 @@ exports.sendMessage=async (phoneNumber, message) => {
         json: true
     };
     const response = await rp(options);
-
+console.log(response);
     return response;
 }  
